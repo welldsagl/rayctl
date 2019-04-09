@@ -2,7 +2,14 @@
   "name": "rayctl",
   "description": "React Native white label generator",
   "version": "0.0.0",
-  "author": "Amedeo Zucchetti @zuccha",
+  "author": "WellD (https://www.welld.ch)",
+  "contributors": [
+    "Virginie Blancs <virginie.blancs@welld.ch>",
+    "Matteo Codogno <matteo.codogno@welld.ch>",
+    "Simone D'Avico <simone.davico@welld.ch>",
+    "Gabriele Prestifilippo <gabriele.prestifilippo@welld.ch>",
+    "Amedeo Zucchetti <amedeo.zucchetti@welld.ch>"
+  ],
   "bin": {
     "rayctl": "./bin/run"
   },
