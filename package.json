@@ -17,7 +17,9 @@
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
-    "@oclif/plugin-help": "^2"
+    "@oclif/plugin-help": "^2",
+    "command-exists": "^1.2.8",
+    "fs-extra": "^7.0.1"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
