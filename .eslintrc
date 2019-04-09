@@ -1,60 +1,22 @@
 {
   "extends": "oclif",
-    "rules": {
-      "key-spacing": [
-        "error",
-        {
-          "afterColon": true
-        }
-      ],
-      "no-underscore-dangle": [
-        "error",
-        {
-          "allowAfterThis": true
-        }
-      ],
-      "no-use-before-define": [
-        "error",
-        {
-          "variables": false
-        }
-      ],
-      "jsx-quotes": [
-        2,
-        "prefer-single"
-      ],
-      "max-len": [
-        "error",
-        {
-          "code": 120,
-          "tabWidth": 2,
-          "ignoreUrls": true,
-          "ignoreRegExpLiterals": true
-        }
-      ],
-      "semi": [
-        "error",
-        "always",
-        {
-          "omitLastInOneLineBlock": true
-        }
-      ],
-      "curly": [
-        "error",
-        "all"
-      ],
-      "object-curly-spacing": [
-        2,
-        "always"
-      ],
-      "comma-dangle": [
-        "error",
-        "only-multiline"
-      ],
-      "consistent-return": "off",
-      "arrow-parens": [
-        "error",
-        "as-needed"
-      ]
-    }
+  "rules": {
+    "comma-dangle": [ "error",  "only-multiline"],
+    "consistent-return": "off",  "arrow-parens": [ "error",  "as-needed"],
+    "curly": [ "error",  "all"],
+    "indent": [ "error", 2, { "MemberExpression": 1 }],
+    "jsx-quotes": [ 2,  "prefer-single"],
+    "key-spacing": [ "error", { "afterColon": true }],
+    "max-len": [ "error", {
+      "code": 120,
+      "tabWidth": 2,
+      "ignoreUrls": true,
+      "ignoreRegExpLiterals": true
+    }],
+    "no-underscore-dangle": [ "error", { "allowAfterThis": true }],
+    "no-use-before-define": [ "error", { "variables": false }],
+    "no-warning-comments": [ 1 ],
+    "object-curly-spacing": [ 2,  "always"],
+    "semi": [ "error",  "always", { "omitLastInOneLineBlock": true }]
+  }
 }

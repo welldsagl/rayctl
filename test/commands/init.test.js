@@ -2,16 +2,14 @@ const { expect, test } = require('@oclif/test');
 
 describe('init', () => {
   test
-  .stdout()
-  .command(['init'])
-  .it('runs hello', ctx => {
-    expect(ctx.stdout).to.contain('hello world');
-  });
+    .command(['init'])
+    .exit(2)
+    .it('crashes without argument');
 
   test
-  .stdout()
-  .command(['init', '--name', 'jeff'])
-  .it('runs hello --name jeff', ctx => {
-    expect(ctx.stdout).to.contain('hello jeff');
-  });
+    .stdout()
+    .command(['init', 'foo'])
+    .it('crashes without argument', ctx => {
+      expect(ctx.stdout).to.contain('Run `react-native init foo`');
+    });
 });
