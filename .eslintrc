@@ -1,0 +1,60 @@
+{
+  "extends": "oclif",
+    "rules": {
+      "key-spacing": [
+        "error",
+        {
+          "afterColon": true
+        }
+      ],
+      "no-underscore-dangle": [
+        "error",
+        {
+          "allowAfterThis": true
+        }
+      ],
+      "no-use-before-define": [
+        "error",
+        {
+          "variables": false
+        }
+      ],
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ],
+      "max-len": [
+        "error",
+        {
+          "code": 120,
+          "tabWidth": 2,
+          "ignoreUrls": true,
+          "ignoreRegExpLiterals": true
+        }
+      ],
+      "semi": [
+        "error",
+        "always",
+        {
+          "omitLastInOneLineBlock": true
+        }
+      ],
+      "curly": [
+        "error",
+        "all"
+      ],
+      "object-curly-spacing": [
+        2,
+        "always"
+      ],
+      "comma-dangle": [
+        "error",
+        "only-multiline"
+      ],
+      "consistent-return": "off",
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ]
+    }
+}
