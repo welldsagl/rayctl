@@ -16,7 +16,7 @@ React Native white label generator
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g rayctl
+$ yarn global add rayctl
 $ rayctl COMMAND
 running command...
 $ rayctl (-v|--version|version)
@@ -55,14 +55,13 @@ Describe the command here
 
 ```
 USAGE
-  $ rayctl init
-
-OPTIONS
-  -n, --name=name  name to print
+  $ rayctl init NAME
 
 DESCRIPTION
-  ...
-  Extra documentation goes here
+  Initialize React Native white-label project.
+  
+  This command will create a new React Native project, with 'react-native init',
+  with the addition of white-label custom files and directories.
 ```
 
 _See code: [src/commands/init.js](https://github.com/welldsagl/rayctl/blob/v0.0.0/src/commands/init.js)_
