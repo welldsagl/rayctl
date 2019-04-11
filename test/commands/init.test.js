@@ -1,48 +1,47 @@
 const fs = require('fs-extra');
+const sh = require('shelljs');
 const { expect, test } = require('@oclif/test');
+const { clean, run } = require('../helpers');
 
-const cleanInitFolder = () => {
-  if (fs.existsSync('foo')) {
-    fs.removeSync('foo');
-  }
-};
+const projectInit = 'foo';
 
 describe('init', () => {
   /* eslint-disable no-undef */
+  beforeEach(() => {
+    clean(projectInit);
+  });
+
   afterEach(() => {
-    cleanInitFolder();
+    clean(projectInit);
   });
   /* eslint-enable no-undef */
 
-  test
-    .command(['init'])
-    .exit(2)
-    .it('crashes without argument');
+  test.it('crashes without argument', () => {
+    const out = run(['init']);
+    expect(out.code).to.equal(2);
+  });
 
-  test
-    .stdout()
-    .command(['init', 'foo'])
-    .it('message log appears', ctx => {
-      expect(ctx.stdout).to.contain('Run `react-native init foo`');
-    });
+  test.it('message log appears', () => {
+    const out = run(['init', 'foo']);
+    expect(out.stdout).to.contain('Run `react-native init foo`');
+  });
 
-  test
-    .do(() => {
-      fs.mkdirSync('foo');
-    })
-    .stdout()
-    .command(['init', 'foo'])
-    .exit(1)
-    .it('init folder already exists', ctx => {
-      expect(ctx.stdout).to.contain('Directory foo already exists.');
-    });
+  test.it('init folder already exists', () => {
+    sh.cd('/tmp');
+    sh.mkdir('foo');
+    const out = run(['init', 'foo']);
+    expect(out.stderr).to.contain('Directory foo already exists.');
+  });
 
-  test.command(['init', 'foo']).it('creates foo folder', () => {
-    const fooFolderExists = fs.existsSync('foo');
+  test.it('creates foo folder', () => {
+    run(['init', 'foo']);
+    const fooFolderExists = fs.existsSync('/tmp/foo');
     expect(fooFolderExists).to.equal(true);
   });
 
-  test.command(['init', 'foo']).it('creates correct wl structure', () => {
+  test.it('creates correct wl structure', () => {
+    run(['init', 'foo']);
+
     const modulesDirectory = fs.existsSync('foo/modules');
     const namedModulesDirectory = fs.existsSync('foo/namedModules');
     const themesDirectory = fs.existsSync('foo/themes');
@@ -55,7 +54,7 @@ describe('init', () => {
     expect(contextsDirectory).to.equal(true);
     expect(rayctlDirectory).to.equal(true);
 
-    const rayctlConfig = fs.existsSync('foo/.rayctl/config.json');
+    const rayctlConfig = fs.existsSync('/tmp/foo/.rayctl/config.json');
     expect(rayctlConfig).to.equal(true);
   });
 });

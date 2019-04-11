@@ -9,12 +9,10 @@ class InitCommand extends Command {
     this.log(`Run \`react-native init ${args.name}\``);
     this.log('Generate white-label directories and files');
     if (!commandExistsSync('react-native')) {
-      this.log('react-native command, not found. This CLI requires react-native to be installed');
-      this.exit(1);
+      this.error('react-native command, not found. This CLI requires react-native to be installed');
     }
     if (fs.existsSync(args.name)) {
-      this.log(`Directory ${args.name} already exists.`);
-      this.exit(1);
+      this.error(`Directory ${args.name} already exists.`);
     }
 
     // to test, we can use this: execSync(`mkdir ${args.name}`);
