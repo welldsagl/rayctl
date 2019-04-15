@@ -37,7 +37,7 @@ describe('init', () => {
 
   test.it('creates init folder', () => {
     run(`init ${initArg}`);
-    const fooFolderExists = fs.existsSync(path.join(tempDir, initArg));
+    const fooFolderExists = fs.existsSync(path.join(tempDir, 'rayctl', initArg));
     expect(fooFolderExists).to.equal(true);
   });
 
@@ -56,7 +56,7 @@ describe('init', () => {
     expect(contextsDirectory).to.equal(true);
     expect(rayctlDirectory).to.equal(true);
 
-    const rayctlConfig = fs.existsSync(path.join(tempDir, initArg, '.rayctl', 'config.json'));
+    const rayctlConfig = fs.existsSync(path.join(tempDir, 'rayctl', initArg, '.rayctl', 'config.json'));
     expect(rayctlConfig).to.equal(true);
   });
 });
