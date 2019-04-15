@@ -30,10 +30,11 @@
     "lint-staged": "^8.1.5",
     "mocha": "^5",
     "nyc": "^13",
-    "prettier-eslint-cli": "^4.7.1"
+    "prettier-eslint-cli": "^4.7.1",
+    "sinon": "^7.3.1"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "files": [
     "/bin",

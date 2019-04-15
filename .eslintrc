@@ -1,6 +1,7 @@
 {
   "extends": "oclif",
   "rules": {
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "comma-dangle": ["error",  "only-multiline"],
     "consistent-return": "off",  "arrow-parens": ["error",  "as-needed"],
     "curly": ["error",  "all"],
@@ -17,6 +18,7 @@
     "no-use-before-define": ["error", { "variables": false }],
     "no-warning-comments": [1],
     "object-curly-spacing": [2,  "always"],
-    "semi": ["error",  "always", { "omitLastInOneLineBlock": true }]
+    "semi": ["error",  "always", { "omitLastInOneLineBlock": true }],
+    "valid-jsdoc": "off"
   }
 }
