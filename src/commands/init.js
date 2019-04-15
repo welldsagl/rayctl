@@ -15,8 +15,7 @@ class InitCommand extends Command {
       this.error(`Directory ${args.name} already exists.`);
     }
 
-    // to test, we can use this: execSync(`mkdir ${args.name}`);
-    // execSync(`react-native init ${args.name}`);
+    // TODO: use execSync(`react-native init ${args.name}`); instead of mkdir when init is ready
     execSync(`mkdir ${args.name}`);
 
     const wlDirectories = ['modules', 'namedModules', 'themes', 'contexts', '.rayctl'];
