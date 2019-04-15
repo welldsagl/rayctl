@@ -5,11 +5,12 @@ node_js:
 cache: yarn
 
 script:
-  - .\bin\run --version
-  - .\bin\run --help
-  - yarn run test
+  - ./bin/run --version
+  - ./bin/run --help
+  - yarn lint:check
+  - yarn test
 
 
 after_success:
-  - .\node_modules\.bin\nyc report --reporter text-lcov > coverage.lcov
+  - ./node_modules/.bin/nyc report --reporter text-lcov > coverage.lcov
   - bash < (curl -s https://codecov.io/bash)

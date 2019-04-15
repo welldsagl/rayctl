@@ -74,8 +74,9 @@
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "nyc mocha --forbid-only \"test/**/*.test.js\"",
     "version": "oclif-dev readme && git add README.md",
-    "lint": "prettier-eslint --write",
-    "lint:staged": "lint-staged",
-    "lint:all": "yarn lint \"{src,test}/**/*.js\""
+    "lint": "prettier-eslint \"{src,test}/**/*.js\"",
+    "lint:fix": "yarn lint --write",
+    "lint:check": "yarn lint --list-different",
+    "lint:staged": "lint-staged"
   }
 }
