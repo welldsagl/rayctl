@@ -5,7 +5,7 @@ React Native white label generator
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/rayctl.svg)](https://npmjs.org/package/rayctl)
-[![Codecov](https://codecov.io/gh/welldsagl/rayctl/branch/master/graph/badge.svg)](https://codecov.io/gh/welldsagl/rayctl)
+[![codecov](https://codecov.io/gh/welldsagl/rayctl/branch/master/graph/badge.svg)](https://codecov.io/gh/welldsagl/rayctl)
 [![Downloads/week](https://img.shields.io/npm/dw/rayctl.svg)](https://npmjs.org/package/rayctl)
 [![License](https://img.shields.io/npm/l/rayctl.svg)](https://github.com/welldsagl/rayctl/blob/master/package.json)
 
