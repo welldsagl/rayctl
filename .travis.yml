@@ -8,6 +8,7 @@ script:
   - ./bin/run --version
   - ./bin/run --help
   - yarn lint:check
+  - yarn link
   - yarn test
 
 
