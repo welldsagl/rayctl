@@ -1,6 +1,6 @@
 const { expect, test } = require('@oclif/test');
 const sinon = require('sinon');
-const { Command } = require('../src/base');
+const { Command, flags: flagType } = require('../src/base');
 
 /* eslint-disable no-console,no-process-exit,unicorn/no-process-exit */
 /**
@@ -71,6 +71,33 @@ class TestErrorCustomCommand extends Command {
   }
 }
 
+class TestArgsCommand extends Command {
+  async run() {
+    this.log(`log arg ${this.args.name}`);
+  }
+}
+
+TestArgsCommand.setArgs([
+  {
+    name: 'name',
+    required: true
+  }
+]);
+
+class TestFlagsCommand extends Command {
+  async run() {
+    if (this.flags.test) {
+      this.log('log with flag');
+    } else {
+      this.log('log without flag');
+    }
+  }
+}
+
+TestFlagsCommand.setFlags({
+  test: flagType.boolean()
+});
+
 /**
  * Tests
  */
@@ -109,14 +136,8 @@ describe('command', () => {
   });
 
   test.it('throws an error with both `--silent` and `--verbose` flags', async () => {
-    const testCommand = new TestLogCommand(['--silent', '--verbose'], {});
-    const errorMessage = '--verbose= cannot also be provided when using --silent=';
-    testCommand
-      .run()
-      .then(() => {
-        throw new Error(errorMessage);
-      })
-      .catch(error => expect(error.message).to.equal(errorMessage));
+    const makeCommand = () => new TestLogCommand(['--silent', '--verbose'], {});
+    expect(makeCommand).to.throw();
   });
 
   /**
@@ -288,5 +309,38 @@ describe('command', () => {
     expect(logger.error.calledWith('error custom')).to.equal(true);
 
     logger.error.restore();
+  });
+
+  /**
+   * Args and flags
+   */
+  test.it('sets args correctly', async () => {
+    const testCommand = new TestArgsCommand(['test'], {});
+    sinon.stub(testCommand, 'log');
+
+    await testCommand.run();
+    expect(testCommand.log.calledWith('log arg test')).to.equal(true);
+
+    testCommand.log.restore();
+  });
+
+  test.it('sets flags correctly (without passing flag)', async () => {
+    const testCommand = new TestFlagsCommand([], {});
+    sinon.stub(testCommand, 'log');
+
+    await testCommand.run();
+    expect(testCommand.log.calledWith('log without flag')).to.equal(true);
+
+    testCommand.log.restore();
+  });
+
+  test.it('sets flags correctly (passing flag)', async () => {
+    const testCommand = new TestFlagsCommand(['--test'], {});
+    sinon.stub(testCommand, 'log');
+
+    await testCommand.run();
+    expect(testCommand.log.calledWith('log with flag')).to.equal(true);
+
+    testCommand.log.restore();
   });
 });

@@ -11,6 +11,9 @@ class BaseCommand extends Command {
    *   - printError: prints to the stderr and exits with 1.
    * These methods are used respectively in `this.log`, `this.warn` and
    * `this.error`. They are the default functions used to log.
+   * The constructor also parses the command and assigns arguments and flags
+   * to attributes `this.args` and `this.flags` respectively.
+   *
    * @param props Props to be forwarded to parent constructor.
    */
   constructor(...props) {
@@ -18,6 +21,20 @@ class BaseCommand extends Command {
     this.printLog = super.log;
     this.printWarning = super.warn;
     this.printError = super.error;
+
+    // Check and set args/flags if they have never been set for the current
+    // command class (i.e., `setArgs` and/or `setFlags` have not been called
+    // when defining a command a sub-class of BaseCommand).
+    if (!this.constructor.didSetArgs) {
+      this.constructor.setArgs();
+    }
+    if (!this.constructor.didSetFlags) {
+      this.constructor.setFlags();
+    }
+
+    const { args, flags } = super.parse(this.constructor);
+    this.args = args;
+    this.flags = flags;
   }
 
   /**
@@ -26,10 +43,42 @@ class BaseCommand extends Command {
    * This method is used to retrieve arguments and flags passed to a command
    *   const { args, flags } = this.parse();
    * Usually it is used in the `run` method of a command.
+   *
+   * However, arguments and flags are already parsed in the constructor, and
+   * they are assigned to `this.args` and `this.flags`, so parsing the command
+   * a second time is usually not necessary.
+   *
    * @returns The parsed command's arguments and flags (as well as other data).
    */
   parse() {
-    return super.parse(BaseCommand);
+    return super.parse(this.constructor);
+  }
+
+  /**
+   * Set arguments for the command extending `BaseCommand`
+   *
+   * The arguments will extend the default arguments of `BaseCommand`.
+   *
+   * @param args List of argumets accepted by a given command.
+   */
+  static setArgs(args = []) {
+    this.didSetArgs = true;
+    this.args = [...BaseCommand.args, ...args];
+  }
+
+  /**
+   * Set flags for the command extending `BaseCommand`
+   *
+   * The arguments will extend the default flags of `BaseCommand`.
+   *
+   * @param flags Dictionary of flags accepted by a given command.
+   */
+  static setFlags(flags = {}) {
+    this.didSetFlags = true;
+    this.flags = {
+      ...BaseCommand.flags,
+      ...flags
+    };
   }
 
   /**
@@ -45,6 +94,7 @@ class BaseCommand extends Command {
    *   this.log('This is a message');
    *   this.log('This is a verbose message', { verbose: true })'
    *   this.log('This message uses a custom logger', {}, console.log)'
+   *
    * @param msg Message to be logged.
    * @param options (default = {})
    *   - verbose: If marked verbose, a log is printed only if the command is
@@ -83,6 +133,7 @@ class BaseCommand extends Command {
    *   this.warn('This is a warning');
    *   this.warn('This is a verbose warning', { verbose: true })'
    *   this.warn('This warning uses a custom logger', {}, console.warn)'
+   *
    * @param msg Warning message to be logged.
    * @param options (default = {})
    *   - verbose: If marked verbose, a warning is printed only if the command is
@@ -113,6 +164,7 @@ class BaseCommand extends Command {
    * Example usage
    *   this.error('This is an error');
    *   this.error('This is error uses a custom logger', {}, console.error)'
+   *
    * @param msg Error message to be logged.
    * @param options (default = {})
    *   - verbose: If marked verbose, an error is printed only if the command is
@@ -154,29 +206,6 @@ BaseCommand.flags = {
     description: 'output verbose messages on internal operations',
     exclusive: ['silent', 'quiet']
   })
-};
-
-/**
- * Set arguments for the command extending `BaseCommand`
- *
- * The arguments will extend the default arguments of `BaseCommand`.
- * @param args List of argumets accepted by a given command.
- */
-BaseCommand.setArgs = args => {
-  BaseCommand.args = [...BaseCommand.args, ...args];
-};
-
-/**
- * Set flags for the command extending `BaseCommand`
- *
- * The arguments will extend the default flags of `BaseCommand`.
- * @param flags Dictionary of flags accepted by a given command.
- */
-BaseCommand.setFlags = (flags = {}) => {
-  BaseCommand.flags = {
-    ...BaseCommand.flags,
-    ...flags
-  };
 };
 
 module.exports = {
