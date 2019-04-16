@@ -2,7 +2,27 @@ const { expect, test } = require('@oclif/test');
 const sinon = require('sinon');
 const { Command } = require('../src/base');
 
-/* eslint-disable no-console */
+/* eslint-disable no-console,no-process-exit,unicorn/no-process-exit */
+/**
+ * Custom loggers
+ */
+const logger = {
+  info: msg => {
+    console.log(msg);
+  },
+  warn: msg => {
+    console.warn(msg);
+  },
+  error: (msg, { exit } = {}) => {
+    console.error(msg);
+    process.exit(exit || 1);
+  }
+};
+/* eslint-enable no-console,no-process-exit,unicorn/no-process-exit */
+
+/**
+ * Custom Command classes for tests
+ */
 class TestLogCommand extends Command {
   async run() {
     this.log('log');
@@ -17,7 +37,7 @@ class TestLogVerboseCommand extends Command {
 
 class TestLogCustomCommand extends Command {
   async run() {
-    this.log('log custom', {}, console.log);
+    this.log('log custom', {}, logger.info);
   }
 }
 
@@ -35,7 +55,7 @@ class TestWarnVerboseCommand extends Command {
 
 class TestWarnCustomCommand extends Command {
   async run() {
-    this.warn('warn custom', {}, console.warn);
+    this.warn('warn custom', {}, logger.warn);
   }
 }
 
@@ -47,10 +67,13 @@ class TestErrorCommand extends Command {
 
 class TestErrorCustomCommand extends Command {
   async run() {
-    this.error('error custom', {}, console.error);
+    this.error('error custom', {}, logger.error);
   }
 }
 
+/**
+ * Tests
+ */
 describe('command', () => {
   /**
    * Logs
@@ -134,12 +157,12 @@ describe('command', () => {
    */
   test.it('logs normally with custom logger', async () => {
     const testCommand = new TestLogCustomCommand([], {});
-    sinon.stub(console, 'log');
+    sinon.stub(logger, 'info');
 
     await testCommand.run();
-    expect(console.log.calledWith('log custom')).to.equal(true);
+    expect(logger.info.calledWith('log custom')).to.equal(true);
 
-    console.log.restore();
+    logger.info.restore();
   });
 
   /**
@@ -213,12 +236,12 @@ describe('command', () => {
    */
   test.it('logs normally with custom logger', async () => {
     const testCommand = new TestWarnCustomCommand([], {});
-    sinon.stub(console, 'warn');
+    sinon.stub(logger, 'warn');
 
     await testCommand.run();
-    expect(console.warn.calledWith('warn custom')).to.equal(true);
+    expect(logger.warn.calledWith('warn custom')).to.equal(true);
 
-    console.warn.restore();
+    logger.warn.restore();
   });
 
   /**
@@ -259,12 +282,11 @@ describe('command', () => {
    */
   test.it('prints error with custom logger', async () => {
     const testCommand = new TestErrorCustomCommand([], {});
-    sinon.stub(console, 'error');
+    sinon.stub(logger, 'error');
 
     await testCommand.run();
-    expect(console.error.calledWith('error custom')).to.equal(true);
+    expect(logger.error.calledWith('error custom')).to.equal(true);
 
-    console.error.restore();
+    logger.error.restore();
   });
 });
-/* eslint-enable no-console */
