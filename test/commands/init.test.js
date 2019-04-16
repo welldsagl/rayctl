@@ -37,8 +37,8 @@ describe('init', () => {
 
   test.it('creates init folder', () => {
     run(`init ${projectName}`);
-    const fooFolderExists = fs.existsSync(path.join(tempDir, 'rayctl', projectName));
-    expect(fooFolderExists).to.equal(true);
+    const projectFolderExists = fs.existsSync(path.join(tempDir, 'rayctl', projectName));
+    expect(projectFolderExists).to.equal(true);
   });
 
   test.it('creates correct wl structure', () => {
@@ -56,7 +56,7 @@ describe('init', () => {
     expect(contextsDirectory).to.equal(true);
     expect(rayctlDirectory).to.equal(true);
 
-    const rayctlConfig = fs.existsSync(path.join(tempDir, 'rayctl', projectName, '.rayctl', 'config.json'));
-    expect(rayctlConfig).to.equal(true);
+    const configExists = fs.existsSync(path.join(tempDir, 'rayctl', projectName, '.rayctl', 'config.json'));
+    expect(configExists).to.equal(true);
   });
 });
