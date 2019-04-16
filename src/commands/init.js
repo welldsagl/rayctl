@@ -1,16 +1,14 @@
 const { Command } = require('@oclif/command');
 const { execSync } = require('child_process');
+const path = require('path');
 const fs = require('fs-extra');
-const commandExistsSync = require('command-exists').sync;
 
 class InitCommand extends Command {
   async run() {
     const { args } = this.parse(InitCommand);
     this.log(`Run \`react-native init ${args.name}\``);
     this.log('Generate white-label directories and files');
-    if (!commandExistsSync('react-native')) {
-      this.error('react-native command, not found. This CLI requires react-native to be installed');
-    }
+
     if (fs.existsSync(args.name)) {
       this.error(`Directory ${args.name} already exists.`);
     }
@@ -20,10 +18,10 @@ class InitCommand extends Command {
 
     const wlDirectories = ['modules', 'namedModules', 'themes', 'contexts', '.rayctl'];
     wlDirectories.forEach(directoryName => {
-      fs.mkdirSync(`${args.name}/${directoryName}`);
+      fs.mkdirSync(path.join(args.name, directoryName));
     });
 
-    fs.writeFileSync(`${args.name}/.rayctl/config.json`, '');
+    fs.writeFileSync(path.join(args.name, '.rayctl', 'config.json'), '');
   }
 }
 

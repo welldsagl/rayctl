@@ -4,7 +4,7 @@ const sh = require('shelljs');
 const { expect, test } = require('@oclif/test');
 const { clean, createDir, run, tempDir } = require('../helpers');
 
-const initArg = 'foo';
+const projectName = 'foo';
 
 describe('init', () => {
   /* eslint-disable no-undef */
@@ -23,32 +23,32 @@ describe('init', () => {
     expect(out.code).to.equal(2);
   });
 
-  test.it('message log appears', () => {
-    const out = run(`init ${initArg}`);
-    expect(out.stdout).to.contain(`Run \`react-native init ${initArg}\``);
+  test.it('shows a message log', () => {
+    const out = run(`init ${projectName}`);
+    expect(out.stdout).to.contain(`Run \`react-native init ${projectName}\``);
   });
 
-  test.it('init folder already exists', () => {
+  test.it('prints error on project folder already present', () => {
     sh.cd(tempDir);
-    sh.mkdir('-p', path.join('rayctl', initArg));
-    const out = run(`init ${initArg}`);
-    expect(out.stderr).to.contain(`Directory ${initArg} already exists.`);
+    sh.mkdir('-p', path.join('rayctl', projectName));
+    const out = run(`init ${projectName}`);
+    expect(out.stderr).to.contain(`Directory ${projectName} already exists.`);
   });
 
   test.it('creates init folder', () => {
-    run(`init ${initArg}`);
-    const fooFolderExists = fs.existsSync(path.join(tempDir, 'rayctl', initArg));
+    run(`init ${projectName}`);
+    const fooFolderExists = fs.existsSync(path.join(tempDir, 'rayctl', projectName));
     expect(fooFolderExists).to.equal(true);
   });
 
   test.it('creates correct wl structure', () => {
-    run(`init ${initArg}`);
+    run(`init ${projectName}`);
 
-    const modulesDirectory = fs.existsSync(path.join(initArg, 'modules'));
-    const namedModulesDirectory = fs.existsSync(path.join(initArg, 'namedModules'));
-    const themesDirectory = fs.existsSync(path.join(initArg, 'themes'));
-    const contextsDirectory = fs.existsSync(path.join(initArg, 'contexts'));
-    const rayctlDirectory = fs.existsSync(path.join(initArg, '.rayctl'));
+    const modulesDirectory = fs.existsSync(path.join(projectName, 'modules'));
+    const namedModulesDirectory = fs.existsSync(path.join(projectName, 'namedModules'));
+    const themesDirectory = fs.existsSync(path.join(projectName, 'themes'));
+    const contextsDirectory = fs.existsSync(path.join(projectName, 'contexts'));
+    const rayctlDirectory = fs.existsSync(path.join(projectName, '.rayctl'));
 
     expect(modulesDirectory).to.equal(true);
     expect(namedModulesDirectory).to.equal(true);
@@ -56,7 +56,7 @@ describe('init', () => {
     expect(contextsDirectory).to.equal(true);
     expect(rayctlDirectory).to.equal(true);
 
-    const rayctlConfig = fs.existsSync(path.join(tempDir, 'rayctl', initArg, '.rayctl', 'config.json'));
+    const rayctlConfig = fs.existsSync(path.join(tempDir, 'rayctl', projectName, '.rayctl', 'config.json'));
     expect(rayctlConfig).to.equal(true);
   });
 });
